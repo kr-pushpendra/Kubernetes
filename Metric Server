@@ -1,0 +1,26 @@
+1.) Clone the git repo
+    git clone https://github.com/kubernetes-sigs/metrics-server.git --branch v0.3.6
+    
+2.) Go to Dir
+    cd metrics-server
+    
+3.) Create deployement
+    kubectl create -f deploy/1.8+/ 
+    
+4.) Edit Deployment and update with the following lines
+    $kubectl edit -n kube-system metrics-server
+  >>Edit following lines
+    spec:
+      containers:
+      - command:
+      - /metrics-server
+      - --v=2
+      - --kubelet-preferred-address-types=InternalIP
+      - --kubelet-insecure-tls=true
+  >>Save file using Esc and then :wq
+  
+5.) Run kubectl top nodes
+NAME       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+kworker1   18m          1%     663Mi           12%
+kworker2   17m          1%     385Mi           9%
+master     100m         5%     1020Mi          21%
